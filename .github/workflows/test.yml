@@ -44,6 +44,6 @@ jobs:
 
       - name: Test MediaWiki API endpoint
         run: |
-          curl 'https://en.wikipedia.org/w/api.php?action=query&format=json&titles=A' --compressed
+          curl 'localhost:8080/api.php?action=query&format=json&titles=A' --compressed
 
 
