@@ -34,7 +34,7 @@ jobs:
           -e MEDIAWIKI_DB_TYPE=sqlite
           -e MEDIAWIKI_DB_NAME=wikidb
           -e MEDIAWIKI_ENABLE_UPLOADS=1
-          -v ./LocalSettings.php:/var/www/mediawiki/LocalSettings.php:ro
+          -v /home/runner/work/actions-testing/actions-testing/LocalSettings.php:/var/www/mediawiki/LocalSettings.php:ro
           -d kristophjunge/mediawiki
 
       - name: Setup MediaWiki
