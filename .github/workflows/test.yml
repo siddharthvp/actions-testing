@@ -34,8 +34,7 @@ jobs:
           -e MEDIAWIKI_DB_TYPE=sqlite
           -e MEDIAWIKI_DB_NAME=wikidb
           -e MEDIAWIKI_ENABLE_UPLOADS=1
-          -v /var/mediawiki/images:/images
-          -v /var/mediawiki/data:/data
+          -v ./LocalSettings.php:/var/www/mediawiki/LocalSettings.php:ro
           -d kristophjunge/mediawiki
 
       - name: Setup MediaWiki
@@ -44,6 +43,6 @@ jobs:
 
       - name: Test MediaWiki API endpoint
         run: |
-          curl 'localhost:8080/api.php?action=query&format=json&titles=A' --compressed
+          curl 'localhost:8080/w/api.php?action=query&format=json&titles=A' --compressed
 
 
