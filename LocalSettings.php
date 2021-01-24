@@ -8,6 +8,7 @@
 # file, not there.
 #
 # Further documentation for configuration settings may be found at:
+
 # https://www.mediawiki.org/wiki/Manual:Configuration_settings
 
 # Protect against web entry
