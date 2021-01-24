@@ -1,0 +1,6 @@
+{
+	"name": "actions-testing",
+	"dependencies": {
+		"mwn": "^0.8.3"
+	}
+}
