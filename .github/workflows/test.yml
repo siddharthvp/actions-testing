@@ -40,7 +40,7 @@ jobs:
 
       - name: Setup MediaWiki
         run: |
-          docker exec -it mediawiki_wiki /script/install.sh wikiuser wikipassword
+          docker exec mediawiki_wiki /script/install.sh wikiuser wikipassword
 
       - name: Test MediaWiki API endpoint
         run: |
