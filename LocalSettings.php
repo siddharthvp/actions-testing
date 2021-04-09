@@ -8,7 +8,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 if (getenv('MEDIAWIKI_SITENAME') != '') {
-    $wgSitename = getenv('MEDIAWIKI_SITENAME');
+    $wgSitename = getenv( 'MEDIAWIKI_SITENAME' );
 }
 
 if (getenv('MEDIAWIKI_META_NAMESPACE') != '') {
