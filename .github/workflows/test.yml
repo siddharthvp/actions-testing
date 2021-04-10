@@ -12,4 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{github.event_name}} == 'release'
     steps:
+      - uses: actions/checkout@v2
+      - name: Read package.json version
+        uses: dutscher/read-package-json-endpoint-actions@v1.3.37
+        id: get-version
+      - run: echo "$VERSION"
+        env: 
+          VERSION: ${{ steps.get-version.outputs.endpoint }}
       - run: echo "Hello World"
