@@ -13,9 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Read package.json version
-        uses: tyankatsu0105/read-package-version-actions@v1
+        uses: martinbeentjes/npm-get-version-action@master
         id: get-version
       - run: echo "$VERSION"
         env: 
-          VERSION: ${{ steps.get-version.outputs.endpoint }}
+          VERSION: ${{ steps.get-version.outputs.current-version }}
       - run: echo "Hello World"
