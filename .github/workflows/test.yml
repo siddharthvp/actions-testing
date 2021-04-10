@@ -19,4 +19,4 @@ jobs:
       - run: echo "$VERSION"
         env: 
           VERSION: ${{ steps.get-version.outputs.current-version }}
-      - run: echo "Hello World"
+      - run: echo ${{github.event_name}}
