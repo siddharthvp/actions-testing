@@ -1,6 +1,6 @@
 {
 	"name": "actions-testing",
-	"version": 0.1.0,
+	"version": "0.1.0",
 	"dependencies": {
 		"mwn": "^0.8.3"
 	}
