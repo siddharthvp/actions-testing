@@ -22,11 +22,12 @@ jobs:
         uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
         with:
           command: >-
+            export VN=$VERSION;
             become twinkle bash -c '
               cd /data/project/twinkle/www/static;
-              cp -r core-docs "core-docs-test-$VERSION";
+              cp -r core-docs "core-docs-test-$VN";
               cd /data/project/twinkle/public_html;
-              cp -r core-docs "core-docs-test-$VERSION";
+              cp -r core-docs "core-docs-test-$VN";
             '
           host: login.toolforge.org
           username: ${{ secrets.TOOLFORGE_USERNAME }}
