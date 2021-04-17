@@ -1,4 +1,4 @@
-name: Docs deploy
+name: Test workflow
 
 on:
   push:
@@ -10,8 +10,23 @@ on:
 jobs:
   versiondocs:
     runs-on: ubuntu-latest
-    if: ${{github.event_name == 'release'}}
     steps:
-      - run: "echo $EVENT"
+      - uses: actions/checkout@v2
+      - name: Read package.json version
+        uses: martinbeentjes/npm-get-version-action@master
+        id: get-version
+      - name: Save the documentation with version number
+        uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
+        with:
+          command: >-
+            become twinkle bash -c '
+              cd /data/project/twinkle/www/static;
+              cp -r core-docs "core-docs-test-$VERSION";
+              cd /data/project/twinkle/public_html;
+              cp -r core-docs "core-docs-test-$VERSION";
+            '
+          host: login.toolforge.org
+          username: ${{ secrets.TOOLFORGE_USERNAME }}
+          privateKey: ${{ secrets.TOOLFORGE_PRIVATE_KEY }}
         env:
-          EVENT: ${{github.event_name}}
+          VERSION: ${{ steps.get-version.outputs.current-version }}
