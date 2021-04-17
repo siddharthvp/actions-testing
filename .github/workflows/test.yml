@@ -15,6 +15,9 @@ jobs:
       - name: Read package.json version
         uses: martinbeentjes/npm-get-version-action@master
         id: get-version
+      - run: 'echo $VERSION'
+        env: 
+          VERSION: ${{ steps.get-version.outputs.current-version }}
       - name: Save the documentation with version number
         uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
         with:
