@@ -10,13 +10,7 @@ on:
 jobs:
   versiondocs:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Read package.json version
-        uses: martinbeentjes/npm-get-version-action@master
-        id: get-version
-      - run: echo "$VERSION"
-        env: 
-          VERSION: ${{ steps.get-version.outputs.current-version }}
-      - run: echo ${{github.event_name}}
+      - run: "echo $EVENT"
+        env:
+          EVENT: ${{github.event_name}}
