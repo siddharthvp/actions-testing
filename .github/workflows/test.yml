@@ -16,7 +16,7 @@ jobs:
       - name: Publish build output on Toolforge
         uses: garygrossgarten/github-action-scp@dba89d858413133b6e35da91a3c989cc8cde3ad4
         with:
-          local: $GITHUB_WORKSPACE/build
+          local: /home/runner/work/actions-testing/actions-testing/build
           remote: /data/project/twinkle/public_html/enwiki/builds/$GITHUB_SHA
           host: login.toolforge.org
           username: ${{ secrets.TOOLFORGE_USERNAME }}
