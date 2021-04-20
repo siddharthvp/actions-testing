@@ -1,18 +1,32 @@
-name: Test workflow
+# Preserve the build output of every successful build from pushes and PRs on Toolforge
+
+name: Build
 
 on:
   push:
-    branches: [ 'main' ]
-  release:
-    types: [ 'created' ]
-  workflow_dispatch:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 jobs:
-  versiondocs:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: pwd; git status;
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - run: npm ci
+      - run: "mkdir build; echo hello > build/hello.txt;"
+      - name: Publish build output on Toolforge
+        uses: garygrossgarten/github-action-scp@dba89d858413133b6e35da91a3c989cc8cde3ad4
+        with:
+          local: $GITHUB_WORKSPACE/build
+          remote: /data/project/twinkle/public_html/enwiki/builds/$GITHUB_SHA
+          host: login.toolforge.org
+          username: ${{ secrets.TOOLFORGE_USERNAME }}
+          privateKey: ${{ secrets.TOOLFORGE_PRIVATE_KEY }}
+
     
     
     
