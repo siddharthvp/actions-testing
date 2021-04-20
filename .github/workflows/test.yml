@@ -11,7 +11,7 @@ jobs:
   versiondocs:
     runs-on: ubuntu-latest
     steps:
-      - run: pwd
+      - run: pwd; git status;
     
     
     
