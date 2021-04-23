@@ -11,16 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.event.pusher.name == 'siddharthvp' }}
     steps:
-      - run: "mkdir build; echo hello > build/hello.txt;"
-      - name: Publish build output on Toolforge
-        uses: garygrossgarten/github-action-scp@dba89d858413133b6e35da91a3c989cc8cde3ad4
-        with:
-          local: ${{github.workspace}}/build
-          remote: /data/project/twinkle/public_html/enwiki/builds/${{github.sha}}
-          host: login.toolforge.org
-          username: ${{ secrets.TOOLFORGE_USERNAME }}
-          privateKey: ${{ secrets.TOOLFORGE_PRIVATE_KEY }}
+      - run: echo Hello World
 
     
     
