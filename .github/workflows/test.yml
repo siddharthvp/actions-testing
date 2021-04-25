@@ -17,8 +17,8 @@ jobs:
           mkdir twinkle-core
           cd twinkle-core
           git init
+          echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
           git remote add gerrit "ssh://$GERRIT_USER@gerrit.wikimedia.org:29418/mediawiki/gadgets/TwinkleCore"
-          ssh-keyscan -t rsa gerrit.wikimedia.org >> ~/.ssh/known_hosts
           git pull gerrit i18n
           rm -rf ~/.ssh
         env:
