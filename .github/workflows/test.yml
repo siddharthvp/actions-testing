@@ -18,7 +18,7 @@ jobs:
           cd twinkle-core
           git init
           git remote add gerrit "ssh://$GERRIT_USER@gerrit.wikimedia.org:29418/mediawiki/gadgets/TwinkleCore"
-          git pull i18n
+          git pull gerrit i18n
           rm -rf ~/.ssh
         env:
           GERRIT_USER: ${{secrets.GERRIT_USER}}
