@@ -10,25 +10,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Read package.json version
-        uses: martinbeentjes/npm-get-version-action@master
-        id: get-version
-      - run: 'echo $VERSION'
-        env: 
-          VERSION: ${{ steps.get-version.outputs.current-version }}
-      - name: Save the documentation with version number
-        uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
-        with:
-          command: >-
-            become twinkle bash -c '
-              cd /data/project/twinkle/www/static;
-              cp -r core-docs "core-docs-te32st-${{ steps.get-version.outputs.current-version }}";
-              cd /data/project/twinkle/public_html;
-              cp -r core-docs "core-docs-te32st-${{ steps.get-version.outputs.current-version }}";
-            '
-          host: login.toolforge.org
-          username: ${{ secrets.TOOLFORGE_USERNAME }}
-          privateKey: ${{ secrets.TOOLFORGE_PRIVATE_KEY }}
+      - run: |
+          mkdir -p ~/.ssh
+          echo -e "$GERRIT_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          mkdir twinkle-core
+          cd twinkle-core
+          git remote add gerrit "ssh://$GERRIT_USER@gerrit.wikimedia.org:29418/mediawiki/gadgets/TwinkleCore"
+          git pull i18n
+          rm -rf ~/.ssh
         env:
-          VERSION: ${{ steps.get-version.outputs.current-version }}
+          GERRIT_USER: ${{secrets.GERRIT_USER}}
+          GERRIT_KEY: ${{secrets.GERRIT_KEY}}
+
+          
