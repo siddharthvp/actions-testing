@@ -1,28 +1,24 @@
-# Preserve the build output of every successful build from pushes and PRs on Toolforge
-
-name: Test
+name: Fallbacks update
 
 on:
-  push:
-    branches: [main]
+  schedule:
+    - cron: '* * 1 * *' # monthly
+  workflow_dispatch:
+  push: 
 
 jobs:
-  build:
+  update:
     runs-on: ubuntu-latest
-    steps:
-      - run: |
-          mkdir -p ~/.ssh
-          echo -e "$GERRIT_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          mkdir twinkle-core
-          cd twinkle-core
-          git init
-          echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-          git remote add gerrit "ssh://$GERRIT_USER@gerrit.wikimedia.org:29418/mediawiki/gadgets/TwinkleCore"
-          git pull gerrit i18n
-          rm -rf ~/.ssh
-        env:
-          GERRIT_USER: ${{secrets.GERRIT_USER}}
-          GERRIT_KEY: ${{secrets.GERRIT_KEY}}
 
-          
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: wikimedia/mediawiki
+      - run: cd mediawiki/languages/messages
+      - run: |
+          echo "{\n$(grep '$fallback ' * | grep -v txt | sed 's/^Messages/"/' | sed 's/.php:$fallback =/": [/' | sed 's/;/ ],/' | sed 's/, /", "/g' | sed "s/'/\"/g" | sed 's/_/-/' | tr '[:upper:]' '[:lower:]' | sed "s/\/\/.*//" | sed 's/^/  /')\n}" > fallbacks.json
+          git config --local user.email "bot@github.com"
+          git config --local user.name "bot"
+          git commit -am "Update fallbacks"
+
+      
