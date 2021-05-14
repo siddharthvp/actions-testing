@@ -17,7 +17,7 @@ jobs:
       - run: |
           git clone --depth 1 --branch master https://github.com/wikimedia/mediawiki
           cd mediawiki/languages/messages
-          echo -e "{\n$(grep '$fallback ' *.php | sed 's/^Messages/  "/' | sed 's/.php:$fallback =/": [/' | sed 's/;/ ],/' | sed 's/, /", "/g' | sed "s/'/\"/g" | sed 's/_/-/' | tr '[:upper:]' '[:lower:]' | sed 's/F/R/' | sed "s/\"\/\/.*//")\n}" | sed -zr 's/,([^,]*$)/\1/' > ../../../fallbacks.json
+          echo -e "{\n$(grep '$fallback ' *.php | sed 's/^Messages/  "/' | sed 's/.php:$fallback =/": [/' | sed 's/;/ ],/' | sed 's/, /", "/g' | sed "s/'/\"/g" | sed 's/_/-/' | tr '[:upper:]' '[:lower:]' | sed 's/F/R/' | sed "s/\", \"\/\/.*//")\n}")\n}" | sed -zr 's/,([^,]*$)/\1/' > ../../../fallbacks.json
           cd ../../..
           git config --local user.email "actions_bot@github.com"
           git config --local user.name "actions_bot"
