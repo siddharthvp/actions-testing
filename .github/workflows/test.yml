@@ -17,9 +17,10 @@ jobs:
       - run: |
           git clone --depth 1 --branch master https://github.com/wikimedia/mediawiki
           cd mediawiki/languages/messages
-          echo "{\n$(grep '$fallback ' * | grep -v txt | sed 's/^Messages/"/' | sed 's/.php:$fallback =/": [/' | sed 's/;/ ],/' | sed 's/, /", "/g' | sed "s/'/\"/g" | sed 's/_/-/' | tr '[:upper:]' '[:lower:]' | sed "s/\/\/.*//" | sed 's/^/  /')\n}" > fallbacks.json
-          git config --local user.email "bot@github.com"
-          git config --local user.name "bot"
+          echo -e "{\n$(grep '$fallback ' * | grep -v txt | sed 's/^Messages/"/' | sed 's/.php:$fallback =/": [/' | sed 's/;/ ],/' | sed 's/, /", "/g' | sed "s/'/\"/g" | sed 's/_/-/' | tr '[:upper:]' '[:lower:]' | sed "s/\/\/.*//" | sed 's/^/  /')\n}" > ../../../actions-testing/fallbacks.json
+          cd ../../../actions-testing
+          git config --local user.email "actions_bot@github.com"
+          git config --local user.name "actions_bot"
           git add fallbacks.json
           git commit -m "Update fallbacks"
           cat fallbacks.json
