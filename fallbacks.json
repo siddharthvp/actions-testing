@@ -113,7 +113,7 @@
   "ko-kp": [ "ko" ],
   "koi": [ "ru" ],
   "krc": [ "ru" ],
-  "krl": [ "fi" ]", "
+  "krl": [ "fi" ]", 
   "ks": [ "ks-arab" ],
   "ksh": [ "de" ],
   "ku": [ "ku-latn" ],
@@ -134,7 +134,7 @@
   "lrc": [ "fa" ],
   "ltg": [ "lv" ],
   "luz": [ "fa" ],
-  "lzh": [ "zh-hant" ]", "
+  "lzh": [ "zh-hant" ]", 
   "lzz": [ "tr" ],
   "mad": [ "id" ],
   "mai": [ "hi" ],
@@ -161,7 +161,7 @@
   "nn": [ "nb" ],
   "nrm": [ "fr" ],
   "oc": [ "ca", "fr" ],
-  "olo": [ "fi" ]", "
+  "olo": [ "fi" ]", 
   "os": [ "ru" ],
   "pcd": [ "fr" ],
   "pdc": [ "de" ],
@@ -241,5 +241,5 @@
   "zh-mo": [ "zh-hk", "zh-hant", "zh-hans" ],
   "zh-my": [ "zh-sg", "zh-hans" ],
   "zh-sg": [ "zh-hans" ],
-  "zh-tw": [ "zh-hant", "zh-hans" ],
+  "zh-tw": [ "zh-hant", "zh-hans" ]
 }
