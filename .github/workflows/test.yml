@@ -17,8 +17,8 @@ jobs:
       - run: |
           git clone --depth 1 --branch master https://github.com/wikimedia/mediawiki
           cd mediawiki/languages/messages
-          echo -e "{\n$(grep '$fallback ' * | grep -v txt | sed 's/^Messages/"/' | sed 's/.php:$fallback =/": [/' | sed 's/;/ ],/' | sed 's/, /", "/g' | sed "s/'/\"/g" | sed 's/_/-/' | tr '[:upper:]' '[:lower:]' | sed "s/\/\/.*//" | sed 's/^/  /')\n}" > ../../../actions-testing/fallbacks.json
-          cd ../../../actions-testing
+          echo -e "{\n$(grep '$fallback ' * | grep -v txt | sed 's/^Messages/"/' | sed 's/.php:$fallback =/": [/' | sed 's/;/ ],/' | sed 's/, /", "/g' | sed "s/'/\"/g" | sed 's/_/-/' | tr '[:upper:]' '[:lower:]' | sed "s/\/\/.*//" | sed 's/^/  /')\n}" > ../../../fallbacks.json
+          cd ../../..
           git config --local user.email "actions_bot@github.com"
           git config --local user.name "actions_bot"
           git add fallbacks.json
