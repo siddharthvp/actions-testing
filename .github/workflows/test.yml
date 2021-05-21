@@ -4,30 +4,21 @@ on:
   schedule:
     - cron: '* * 1 * *' # monthly
   workflow_dispatch:
-  push: 
+  push: # REMOVEME
 
 jobs:
   update:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Update npm packages
+        uses: technote-space/create-pr-action@v2
         with:
-          fetch-depth: 0
-      - run: |
-          git clone --depth 1 --branch master https://github.com/wikimedia/mediawiki
-          cd mediawiki/languages/messages
-          echo -e "{\n$(grep '$fallback ' *.php | sed 's/^Messages/  "/' | sed 's/.php:$fallback =/": [/' | sed 's/;/ ],/' | sed 's/, /", "/g' | sed "s/'/\"/g" | sed 's/_/-/' | tr '[:upper:]' '[:lower:]' | sed 's/F/R/' | sed "s/\", \"\/\/.*//")\n}")\n}" | sed -zr 's/,([^,]*$)/\1/' > ../../../fallbacks.json
-          cd ../../..
-          git config --local user.email "actions_bot@github.com"
-          git config --local user.name "actions_bot"
-          git add fallbacks.json
-          git commit -m "Update fallbacks"
-          cat fallbacks.json
-      - name: Push changes
-        uses: ad-m/github-push-action@v0.5.0
-        with:
-          github_token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
-          branch: main
-
-      
+          EXECUTE_COMMANDS: |
+            npm install
+            node fallbacks-update.js
+          COMMIT_MESSAGE: 'Update fallback languages'
+          COMMIT_NAME: 'Banana-i18n bot'
+          COMMIT_EMAIL: 'banana-i18n-bot@github.com'
+          PR_BRANCH_NAME: 'fallbacks-update-${PR_ID}'
+          PR_TITLE: 'Update fallback languages'
