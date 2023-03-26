@@ -13,7 +13,7 @@ jobs:
       # Run build and ensure tests are passing before deployment
       - run: npm run --if-present build
       - run: npm run --if-present test
-      - uses: wikimedia-gadgets/deploy-action@db4d94e703ca445ed52fd7493b387d137fbce0bb
+      - uses: wikimedia-gadgets/deploy-action@4419bc79b98019cc81e094d778a833fdf11d93a3
         with:
           paths: 'src/myscript.js User:SDZeroBot/deploy-test.js'
           apiUrl: 'https://test.wikipedia.org/w/api.php'
