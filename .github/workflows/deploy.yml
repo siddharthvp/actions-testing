@@ -21,3 +21,5 @@ jobs:
 
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
+
+          editSummary: 'Updating from ${{github.repository}} repo at $BRANCH ($SHA)'
