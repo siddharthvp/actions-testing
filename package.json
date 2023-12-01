@@ -3,6 +3,6 @@
 	"name": "actions-testing",
 	"version": "0.1.0",
 	"devDependencies": {
-	    "axios": "^0.21.1"
+		"axios": "^0.21.1"
 	}
 }
