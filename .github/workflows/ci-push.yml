@@ -3,8 +3,8 @@
 name: Node.js CI
 
 on:
-#  push:
-#    branches: [main]
+  push:
+    branches: [main]
 #    paths:
 #      - 'src/**'
 #      - 'tests/**'
@@ -14,101 +14,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run build
-      - uses: actions/upload-artifact@v2
-        with:
-          name: build
-          path: build
-      - name: Test usage with TypeScript
-        run: npm run test:ts
-        env:
-          AUTH_JSON: ${{secrets.AUTH_JSON}}
-
-  code_ql:
-    runs-on: ubuntu-latest
-    name: CodeQL
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
-        with:
-          languages: javascript
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
-
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x, 14.x, 16.x]
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Setup MediaWiki instance using Docker for integration tests
-        run: npm run setuplocalwiki
-      - run: npm ci
-      - uses: actions/download-artifact@v2
-      - run: npm run test
-        env:
-          AUTH_JSON: ${{secrets.AUTH_JSON}}
-      - uses: actions/upload-artifact@v2
-        with:
-          name: coverage
-          path: coverage
-
-  coveralls:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-  # Upload coverage report to toolforge as well
   upload_coverage:
     runs-on: ubuntu-latest
-    needs: test
     steps:
-      - uses: actions/download-artifact@v2
-      - name: Zip coverage report
-        run: |
-          mv coverage/lcov-report/* coverage
-          zip -r coverage.zip coverage
-      - name: Upload coverage reports to Toolforge
-        uses: garygrossgarten/github-action-scp@dba89d858413133b6e35da91a3c989cc8cde3ad4
+      - name: Copy to Toolforge
+        uses: appleboy/scp-action@9ba62064d28ce0897a970e72cdfe30b9fde2fe48
         with:
-          local: /home/runner/work/mwn/mwn/coverage.zip
-          remote: /data/project/mwn/coverage.zip
+          source: ${{github.workspace}}/LocalSettings.php
+          target: /data/project/mwn
           host: login.toolforge.org
-          username: ${{ secrets.TOOLFORGE_USERNAME }}
-          privateKey: ${{ secrets.TOOLFORGE_PRIVATE_KEY }}
-          rmRemote: true
-      - name: Coverage
-        uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
-        with:
-          command: |
-            cd /data/project/mwn
-            rm -rf www/static/coverage
-            unzip coverage.zip -d www/static
-          host: login.toolforge.org
-          username: ${{ secrets.TOOLFORGE_USERNAME }}
-          privateKey: ${{ secrets.TOOLFORGE_PRIVATE_KEY }}
+          username: ${{secrets.TOOLFORGE_USERNAME}}
+          key: ${{secrets.TOOLFORGE_PRIVATE_KEY}}
+
