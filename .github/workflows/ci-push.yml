@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Print path
+        run: echo $PWD
       - name: Copy to Toolforge
         uses: appleboy/scp-action@9ba62064d28ce0897a970e72cdfe30b9fde2fe48
         with:
