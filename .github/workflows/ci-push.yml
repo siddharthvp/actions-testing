@@ -18,10 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0   # all branches
       - run: |
-          git branch | cat
-          git tag | cat
-        env:
-          KEY: ${{ secrets.TOOLFORGE_PRIVATE_KEY }}
+          date;
+          curl https://somewebsite2342978653424.org/w/api.php || echo;
+          date;
